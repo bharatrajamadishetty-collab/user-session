@@ -1,58 +1,39 @@
+import { useEffect, useState } from "react";
 
-import React, { useState } from "react";
-
-function FetchUsers() {
+function Users() {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleClick = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const response =
-        await fetch("https://localhost:8080/v1/delete-session", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: "John",
-            email: "john@example.com",
-          }),
-        });
-
-
-      if (!response.ok) {
-        throw new Error("Failed to delete user sessions");
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/v1/users");
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await response.json();
+        setUsers(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await response.json();
-      setUsers(data);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchUsers();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <button onClick={handleClick}>Delete User Sessions</button>
-
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <ul>
+      {users.map((user, index) => (
+        <li key={index}>{user.name}</li>
+      ))}
+    </ul>
   );
 }
 
-export default FetchUsers;
+export default Users;
