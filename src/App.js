@@ -28,11 +28,24 @@ function Users() {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <ul>
-      {users.map((user, index) => (
-        <li key={index}>{user.name}</li>
-      ))}
-    </ul>
+    <table style={{ borderCollapse: "collapse", width: "100%" }}>
+      <thead>
+        <tr>
+          <th style={{ border: "1px solid #ccc", padding: "8px" }}>User ID</th>
+          <th style={{ border: "1px solid #ccc", padding: "8px" }}>Username</th>
+          <th style={{ border: "1px solid #ccc", padding: "8px" }}>Expires At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user, index) => (
+          <tr key={user.userId ?? index}>
+            <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.userId}</td>
+            <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.username}</td>
+            <td style={{ border: "1px solid #ccc", padding: "8px" }}>{user.expiresAt}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
