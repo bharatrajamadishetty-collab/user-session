@@ -42,7 +42,7 @@ function Users() {
             .map((user, i) => `
               <tr>
                 <td style="border:1px solid #ccc;padding:8px">${user.userId ?? ""}</td>
-                <td style="border:1px solid #ccc;padding:8px">${user.userName ?? ""}</td>
+                <td style="border:1px solid #ccc;padding:8px">${user.username ?? ""}</td>
                 <td style="border:1px solid #ccc;padding:8px">${user.expiresAt ?? ""}</td>
               </tr>
             `)
